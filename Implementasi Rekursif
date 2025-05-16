@@ -16,7 +16,7 @@ public class BinarySearchRecursive { //Mendeklarasikan kelas publik bernama Bina
 
         // Jika target lebih kecil, cari di setengah kiri
         if (arr[mid] > target) { // Jika elemen di indeks mid lebih besar dari target, maka target pasti berada di setengah kiri array.
-            return binarySearchRecursive(arr, target, low, mid - 1); //
+            return binarySearchRecursive(arr, target, low, mid - 1); // Baris ini mengembalikan hasil dari pemanggilan metode binarySearchRecursive secara rekursif. 
         }
 
         // Jika target lebih besar, cari di setengah kanan
@@ -24,7 +24,7 @@ public class BinarySearchRecursive { //Mendeklarasikan kelas publik bernama Bina
     }
 
     // Metode wrapper untuk memanggil metode rekursif
-    public static int binarySearch(int[] arr, int target) {
+    public static int binarySearch(int[] arr, int target) { //Mendeklarasikan metode statis binarySearch, yang berfungsi sebagai pembungkus (wrapper) untuk memanggil metode rekursif binarySearchRecursive.
         return binarySearchRecursive(arr, target, 0, arr.length - 1);
     }
 
