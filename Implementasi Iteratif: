@@ -1,0 +1,42 @@
+public class BinarySearch { // Mendeklarasikan kelas publik bernama BinarySearch. 
+    // Metode binary search iteratif
+    public static int binarySearch(int[] arr, int target) { //sebuah array arr bertipe integer dan sebuah integer target yang merupakan elemen yang ingin dicari. 
+        int low = 0; //low diinisialisasi dengan 0 (indeks awal array), 
+        int high = arr.length - 1; //  high diinisialisasi dengan panjang array dikurangi satu (indeks akhir array).
+
+        while (low <= high) { // Memulai loop while yang akan terus berjalan selama low kurang dari atau sama dengan high. Ini berarti masih ada elemen yang perlu diperiksa.
+            // Cari indeks tengah
+            int mid = low + (high - low) / 2; //Menghitung indeks tengah mid dengan rumus low + (high - low) / 2. Ini menghindari kemungkinan overflow yang bisa terjadi jika menggunakan (low + high) / 2.
+
+            // Jika elemen tengah adalah target
+            if (arr[mid] == target) { // Memeriksa apakah elemen di indeks mid sama dengan target. Jika ya, metode mengembalikan indeks mid.
+                return mid; 
+            }
+
+            // Jika target lebih kecil, abaikan setengah kanan
+            if (arr[mid] > target) { //Jika elemen di indeks mid lebih besar dari target, maka target pasti berada di setengah kiri array.
+                high = mid - 1; // high diatur menjadi mid - 1 untuk mempersempit pencarian.
+            }
+            // Jika target lebih besar, abaikan setengah kiri
+            else { // Jika elemen di indeks mid lebih kecil dari target, maka target pasti berada di setengah kanan array. 
+                low = mid + 1; //low diatur menjadi mid + 1 untuk mempersempit pencarian.
+            }
+        }
+
+        // Jika target tidak ditemukan
+        return -1; //Jika loop selesai dan target tidak ditemukan, metode mengembalikan -1.
+    }
+
+    public static void main(String[] args) { //Mendeklarasikan metode main, yang merupakan titik masuk program.
+        int[] arr = {2, 5, 8, 12, 16, 23, 38, 45, 56, 72, 91}; //Mendeklarasikan dan menginisialisasi array arr dengan beberapa nilai integer.
+        int target = 23; //mendeklarasikan variabel target yang berisi nilai yang ingin dicari dalam array.
+
+        int result = binarySearch(arr, target); // Memanggil metode binarySearch dengan arr dan target, dan menyimpan hasilnya dalam variabel result.
+
+        if (result == -1) { //Memeriksa apakah result sama dengan -1.
+            System.out.println("Elemen " + target + " tidak ditemukan dalam array"); //Jika tidak, mencetak pesan bahwa elemen ditemukan beserta indeksnya.
+        } else {
+            System.out.println("Elemen " + target + " ditemukan pada indeks " + result); //Jika ya, mencetak pesan bahwa elemen tidak ditemukan. 
+        }
+    }
+}
