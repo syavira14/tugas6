@@ -1,0 +1,43 @@
+public class BinarySearchRecursive { //Mendeklarasikan kelas publik bernama BinarySearchRecursive.
+    // Metode binary search rekursif
+    public static int binarySearchRecursive(int[] arr, int target, int low, int high) { // sebuah array arr bertipe integer, sebuah integer target yang merupakan elemen yang ingin dicari, dan dua integer low dan high yang menunjukkan batas pencarian dalam array.
+        // Kasus dasar: elemen tidak ditemukan
+        if (low > high) { //Jika low lebih besar dari high, berarti elemen tidak ditemukan dalam rentang yang diberikan, 
+            return -1; //sehingga metode mengembalikan -1.
+        }
+
+        // Cari indeks tengah
+        int mid = low + (high - low) / 2; //Menghitung indeks tengah mid dengan rumus low + (high - low) / 2.
+
+        // Jika elemen tengah adalah target
+        if (arr[mid] == target) { //Memeriksa apakah elemen di indeks mid sama dengan target. 
+            return mid; //Jika ya, metode mengembalikan indeks mid.
+        }
+
+        // Jika target lebih kecil, cari di setengah kiri
+        if (arr[mid] > target) { // Jika elemen di indeks mid lebih besar dari target, maka target pasti berada di setengah kiri array.
+            return binarySearchRecursive(arr, target, low, mid - 1); //
+        }
+
+        // Jika target lebih besar, cari di setengah kanan
+        return binarySearchRecursive(arr, target, mid + 1, high);
+    }
+
+    // Metode wrapper untuk memanggil metode rekursif
+    public static int binarySearch(int[] arr, int target) {
+        return binarySearchRecursive(arr, target, 0, arr.length - 1);
+    }
+
+    public static void main(String[] args) { //Mendeklarasikan metode main, yang merupakan titik masuk program.
+        int[] arr = {2, 5, 8, 12, 16, 23, 38, 45, 56, 72, 91}; //Mendeklarasikan dan menginisialisasi array arr dengan beberapa nilai integer.
+        int target = 23; //Juga mendeklarasikan variabel target yang berisi nilai yang ingin dicari dalam array.
+
+        int result = binarySearch(arr, target); //Memanggil metode binarySearch dengan arr dan target, dan menyimpan hasilnya dalam variabel result.
+
+        if (result == -1) { //Memeriksa apakah result sama dengan -1
+            System.out.println("Elemen " + target + " tidak ditemukan dalam array"); //jika ya, mencetak pesan bahwa elemen tidak ditemukan.
+        } else {
+            System.out.println("Elemen " + target + " ditemukan pada indeks " + result); //Jika tidak, mencetak pesan bahwa elemen ditemukan beserta indeksnya.
+        }
+    }
+}
