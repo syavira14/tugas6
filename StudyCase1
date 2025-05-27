@@ -1,0 +1,86 @@
+import java.util.Scanner; //Kode ini mengimpor kelas Scanner dari paket java.util, yang digunakan untuk membaca input dari pengguna
+
+class Buku { //Deklarasi Kelas dengan memiliki empat atribut: isbn, judul, penulis, dan tahunTerbit.
+    String isbn;
+    String judul;
+    String penulis;
+    int tahunTerbit;
+
+    public Buku(String isbn, String judul, String penulis, int tahunTerbit) { //Ini adalah konstruktor untuk kelas Buku. Konstruktor adalah metode khusus yang dipanggil saat objek dari kelas tersebut dibuat.Konstruktor ini menerima empat parameter
+        this.isbn = isbn; //this Keyword: Kata kunci this digunakan untuk merujuk pada atribut objek saat ini.
+        this.judul = judul;
+        this.penulis = penulis;
+        this.tahunTerbit = tahunTerbit;
+    }
+
+    @Override //Anotasi @Override menunjukkan bahwa metode ini mengoverride metode toString dari kelas induk (dalam hal ini, kelas Object).
+    public String toString() { // untuk memberikan representasi string dari objek Buku. Ketika objek Buku dicetak, metode ini akan dipanggil secara otomatis.
+        return String.format("ISBN: %s\nJudul: %s\nPenulis: %s\nTahun Terbit: %d",
+                            isbn, judul, penulis, tahunTerbit);//String.format: Metode ini digunakan untuk membuat string format yang rapi.
+    }
+}
+
+public class PencarianBuku { //Deklarasi Kelas
+    public static void main(String[] args) {
+        // Data buku yang sudah diurutkan berdasarkan ISBN
+        Buku[] daftarBuku = { //Array daftarBuku: Array ini berisi objek-objek Buku yang telah diinisialisasi dengan data buku yang sudah diurutkan berdasarkan ISBN. Setiap elemen dalam array adalah objek Buku yang dibuat menggunakan konstruktor yang telah dijelaskan sebelumnya.
+            new Buku("9780071606301", "Java: The Complete Reference", "Herbert Schildt", 2007),
+            new Buku("9780132222204", "Effective Java", "Joshua Bloch", 2008),
+            new Buku("9780132778046", "Head First Java", "Kathy Sierra & Bert Bates", 2005),
+            new Buku("9780134685991", "Effective Python", "Brett Slatkin", 2019),
+            new Buku("9780135957059", "Clean Code", "Robert C. Martin", 2008),
+            new Buku("9780137081073", "The Clean Coder", "Robert C. Martin", 2011),
+            new Buku("9780262033848", "Introduction to Algorithms", "Cormen, Leiserson, Rivest & Stein", 2009),
+            new Buku("9780321356680", "Effective Java", "Joshua Bloch", 2008),
+            new Buku("9780596009205", "Head First Design Patterns", "Eric Freeman & Elisabeth Robson", 2004)
+        };
+
+        Scanner scanner = new Scanner(System.in); // untuk membaca input dari pengguna melalui konsol.
+
+        System.out.println("=== SISTEM PENCARIAN BUKU PERPUSTAKAAN ===");
+        System.out.print("Masukkan nomor ISBN buku yang dicari: ");
+        String isbnCari = scanner.nextLine(); //Variabel isbnCari: Menyimpan input ISBN yang dimasukkan oleh pengguna.    
+
+        // Lakukan pencarian binary search
+        int index = cariBukuByISBN(daftarBuku, isbnCari); //memanggil metode cariBukuByISBN, yang bertugas untuk mencari buku dalam array daftarBuku berdasarkan ISBN yang dimasukkan oleh pengguna (isbnCari).Variabel index: Hasil dari pencarian disimpan dalam variabel index. Jika buku ditemukan, index akan berisi indeks dari buku dalam array; jika tidak ditemukan, index akan bernilai -1.  
+
+        System.out.println("\nHASIL PENCARIAN:");
+        if (index != -1) { //Kondisi if: Memeriksa apakah index tidak sama dengan -1
+            System.out.println("Buku ditemukan!"); //Jika index tidak -1: Ini berarti buku ditemukan
+            System.out.println(daftarBuku[index]); //toString() pada objek Buku yang ditemukan (dari daftarBuku[index]).
+        } else {
+            System.out.println("Buku dengan ISBN " + isbnCari + " tidak ditemukan."); //Jika index sama dengan -1: Ini berarti buku tidak ditemukan.
+        }
+
+        scanner.close(); //menutup objek Scanner untuk menghindari kebocoran sumber daya.
+    }
+
+    public static int cariBukuByISBN(Buku[] daftarBuku, String isbn) { //Metode ini dideklarasikan sebagai public static, yang berarti dapat diakses tanpa membuat objek dari kelas PencarianBuku. dengan menerima dua parameter.Buku[] daftarBuku: Array dari objek Buku yang akan dicari.String isbn: ISBN yang dicari.
+        int low = 0; //Digunakan untuk menentukan batas pencarian dalam array. low diinisialisasi dengan 0 (indeks awal),
+        int high = daftarBuku.length - 1; //high diinisialisasi dengan panjang array dikurangi satu (indeks akhir).    
+
+        while (low <= high) { //Perulangan while: Selama low kurang dari atau sama dengan high, pencarian akan terus dilakukan.
+            int mid = low + (high - low) / 2; //Menghitung mid: Indeks tengah (mid) dihitung untuk membagi array menjadi dua bagian.
+
+            // Bandingkan ISBN
+            int comparison = daftarBuku[mid].isbn.compareTo(isbn); //Membandingkan ISBN: Menggunakan metode compareTo untuk membandingkan ISBN buku di indeks tengah (daftarBuku[mid].isbn) dengan ISBN yang dicari (isbn).   
+
+            // Jika ISBN sama
+            if (comparison == 0) { //Jika ISBN Sama: Jika hasil perbandingan sama dengan 0, ini berarti ISBN yang dicari ditemukan di indeks mid, dan metode mengembalikan mid.
+                return mid;
+            }
+
+            // Jika ISBN yang dicari lebih kecil, cari di setengah kiri
+            if (comparison > 0) { //Jika ISBN Lebih Kecil: Jika hasil perbandingan lebih besar dari 0, ini berarti ISBN yang dicari lebih kecil dari ISBN di mid, 
+                high = mid - 1; //sehingga pencarian dilanjutkan di setengah kiri dengan memperbarui high menjadi mid - 1.
+            }
+            // Jika ISBN yang dicari lebih besar, cari di setengah kanan
+            else { //Jika ISBN Lebih Besar: Jika hasil perbandingan kurang dari 0, ini berarti ISBN yang dicari lebih besar,
+                low = mid + 1; // sehingga pencarian dilanjutkan di setengah kanan dengan memperbarui low menjadi mid + 1.   
+            }
+        }
+
+        // Jika buku tidak ditemukan
+        return -1; //Pengembalian -1: Jika perulangan selesai dan buku tidak ditemukan (artinya low lebih besar dari high), metode mengembalikan -1 sebagai tanda bahwa ISBN yang dicari tidak ada dalam array. 
+    }
+}
