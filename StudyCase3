@@ -31,8 +31,8 @@ public class GenericBinarySearch { //Mendefinisikan kelas GenericBinarySearch ya
         return -1;
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) { //Metode main adalah titik masuk (entry point) untuk eksekusi program. Kata kunci public berarti metode ini dapat diakses dari mana saja, static berarti metode ini dapat dipanggil tanpa membuat instance dari kelas, dan String[] args adalah parameter yang digunakan untuk menerima argumen dari baris perintah.
+        Scanner scanner = new Scanner(System.in); //objek Scanner dibuat untuk membaca input dari pengguna. System.in menunjukkan bahwa input akan diambil dari konsol (keyboard).
 
         System.out.println("=== SISTEM PENCARIAN DATASET ===");
         System.out.println("Pilih jenis data yang ingin dicari:");
@@ -41,26 +41,26 @@ public class GenericBinarySearch { //Mendefinisikan kelas GenericBinarySearch ya
         System.out.println("3. String");
         System.out.print("Pilihan Anda (1-3): ");
 
-        int pilihan = scanner.nextInt();
+        int pilihan = scanner.nextInt();//program membaca input dari pengguna dan menyimpannya dalam variabel pilihan bertipe int. Metode nextInt() digunakan untuk membaca input yang diharapkan berupa angka bulat.
         scanner.nextLine(); // Membersihkan buffer
 
-        switch (pilihan) {
+        switch (pilihan) { //untuk memilih salah satu dari beberapa blok kode yang akan dieksekusi berdasarkan nilai variabel pilihan yang telah ditentukan sebelumnya.
             case 1:
                 // Pencarian nilai Integer
-                Integer[] dataInteger = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+                Integer[] dataInteger = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};//program akan melakukan pencarian nilai integer. Array dataInteger didefinisikan dengan beberapa nilai integer.
 
                 System.out.println("\nData Integer: " + Arrays.toString(dataInteger));
                 System.out.print("Masukkan nilai integer yang dicari: ");
                 int targetInt = scanner.nextInt();
 
-                int indexInt = binarySearch(dataInteger, new Searchable<Integer>() {
+                int indexInt = binarySearch(dataInteger, new Searchable<Integer>() { //Program melakukan pencarian biner menggunakan metode binarySearch, yang memerlukan array dan objek Searchable untuk membandingkan nilai. 
                     @Override
-                    public int compare(Integer value) {
+                    public int compare(Integer value) { //Metode compare di sini mengembalikan selisih antara targetInt dan value, yang digunakan untuk menentukan urutan.
                         return targetInt - value; // Negatif jika target < value, 0 jika sama, positif jika target > value
                     }
                 });
 
-                if (indexInt != -1) {
+                if (indexInt != -1) { //Jika indexInt tidak sama dengan -1, berarti nilai ditemukan, dan program mencetak indeksnya. Jika tidak, program mencetak pesan bahwa nilai tidak ditemukan.
                     System.out.println("Nilai " + targetInt + " ditemukan pada indeks " + indexInt);
                 } else {
                     System.out.println("Nilai " + targetInt + " tidak ditemukan dalam dataset");
@@ -69,20 +69,20 @@ public class GenericBinarySearch { //Mendefinisikan kelas GenericBinarySearch ya
 
             case 2:
                 // Pencarian nilai Double
-                Double[] dataDouble = {1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9};
+                Double[] dataDouble = {1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9};//program akan melakukan pencarian nilai double. Array dataDouble didefinisikan dengan beberapa nilai double.
 
-                System.out.println("\nData Double: " + Arrays.toString(dataDouble));
+                System.out.println("\nData Double: " + Arrays.toString(dataDouble)); //mencetak data double yang ada dan meminta pengguna untuk memasukkan nilai double yang ingin dicari.
                 System.out.print("Masukkan nilai double yang dicari: ");
                 double targetDouble = scanner.nextDouble();
 
-                int indexDouble = binarySearch(dataDouble, new Searchable<Double>() {
+                int indexDouble = binarySearch(dataDouble, new Searchable<Double>() { //Program melakukan pencarian biner dengan cara yang sama seperti pada kasus integer, tetapi menggunakan Double.compare untuk membandingkan nilai.
                     @Override
                     public int compare(Double value) {
                         return Double.compare(targetDouble, value);
                     }
                 });
 
-                if (indexDouble != -1) {
+                if (indexDouble != -1) { //Program mencetak hasil pencarian untuk nilai double, sama seperti pada kasus integer.
                     System.out.println("Nilai " + targetDouble + " ditemukan pada indeks " + indexDouble);
                 } else {
                     System.out.println("Nilai " + targetDouble + " tidak ditemukan dalam dataset");
@@ -91,31 +91,31 @@ public class GenericBinarySearch { //Mendefinisikan kelas GenericBinarySearch ya
 
             case 3:
                 // Pencarian nilai String
-                String[] dataString = {"alpha", "beta", "delta", "gamma", "omega", "sigma", "theta", "zeta"};
+                String[] dataString = {"alpha", "beta", "delta", "gamma", "omega", "sigma", "theta", "zeta"};//Jika pengguna memilih opsi 3, program akan melakukan pencarian nilai string. Array dataString didefinisikan dengan beberapa nilai string, dan array tersebut diurutkan terlebih dahulu untuk memastikan pencarian biner dapat dilakukan.
                 Arrays.sort(dataString); // Pastikan array terurut
 
                 System.out.println("\nData String: " + Arrays.toString(dataString));
                 System.out.print("Masukkan string yang dicari: ");
-                String targetString = scanner.nextLine();
+                String targetString = scanner.nextLine();//Program mencetak data string yang ada dan meminta pengguna untuk memasukkan string yang ingin dicari.
 
-                int indexString = binarySearch(dataString, new Searchable<String>() {
+                int indexString = binarySearch(dataString, new Searchable<String>() { //Program melakukan pencarian biner untuk string dengan menggunakan metode compareTo untuk membandingkan string.
                     @Override
                     public int compare(String value) {
                         return targetString.compareTo(value);
                     }
                 });
 
-                if (indexString != -1) {
+                if (indexString != -1) { //Program mencetak hasil pencarian untuk string, sama seperti pada kasus sebelumnya.
                     System.out.println("String \"" + targetString + "\" ditemukan pada indeks " + indexString);
                 } else {
                     System.out.println("String \"" + targetString + "\" tidak ditemukan dalam dataset");
                 }
                 break;
 
-            default:
+            default://Jika pengguna memasukkan pilihan yang tidak valid (selain 1, 2, atau 3), program akan mencetak pesan bahwa pilihan tidak valid.
                 System.out.println("Pilihan tidak valid!");
         }
 
-        scanner.close();
+        scanner.close();//Setelah semua proses selesai, objek scanner ditutup untuk membebaskan sumber daya yang digunakan.
     }
 }
